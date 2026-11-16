@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unit-core:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Bytecode & bash checks
+        run: |
+          python -m compileall -q src tests
+          bash -n scripts/rocm/setup_mi300x_bf16.sh
+          bash -n scripts/rocm/run_mi300x_suite.sh
+      - name: Core unit tests
+        run: python -m unittest discover -s tests -v
+      - name: CLI smoke checks
+        run: |
+          PYTHONPATH=src python -m qwen21_infra.manifest --list-profiles > /dev/null
+          PYTHONPATH=src python -m qwen21_infra.manifest --budget --profile full-bf16 > /dev/null
+          PYTHONPATH=src python -m qwen21_infra.experiments --exp list > /dev/null
+
+  torch-harness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install CPU PyTorch
+        run: pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu torch
+      - name: Run full unittest suite including PyTorch experiments
+        run: python -m unittest discover -s tests -v
+      - name: Execute EXP-01..EXP-04 CPU verification
+        run: PYTHONPATH=src python -m qwen21_infra.experiments --exp all --cpu > /dev/null

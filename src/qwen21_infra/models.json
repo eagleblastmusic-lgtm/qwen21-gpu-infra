@@ -1,0 +1,56 @@
+{
+  "hf_repo_id": "Comfy-Org/Qwen-Image-2.1",
+  "live_preview_workflow_filename": "qwen_image_2_1_edit_live_preview.json",
+  "taesd_decoder": {
+    "rel_path": "vae_approx/taeqi2_1_decoder.pth",
+    "url": "https://raw.githubusercontent.com/madebyollin/taesd/main/taeqi2_1_decoder.pth"
+  },
+  "workflow_templates": {
+    "qwen_image_2_1_edit.json": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/main/templates/image_qwen_image_2_1_image_edit.json",
+    "qwen_image_2_1_turbo_edit.json": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/main/templates/image_qwen_image_2_1_turbo_image_edit.json"
+  },
+  "standard_model_subdirs": [
+    "checkpoints",
+    "clip",
+    "controlnet",
+    "diffusion_models",
+    "embeddings",
+    "loras",
+    "model_patches",
+    "text_encoders",
+    "unet",
+    "upscale_models",
+    "vae",
+    "vae_approx"
+  ],
+  "profiles": {
+    "full-int8": [
+      "diffusion_models/qwen_image_2.1_int8_convrot.safetensors",
+      "diffusion_models/qwen_image_2.1_turbo_int8_convrot.safetensors",
+      "text_encoders/qwen3vl_8b_int8_convrot.safetensors",
+      "text_encoders/qwen3.5_9b_qwen_image_2.1_pe_i2i.int8_convrot.safetensors",
+      "vae/qwen_image_2.1_vae_bf16.safetensors"
+    ],
+    "lite-int8": [
+      "diffusion_models/qwen_image_2.1_int8_convrot.safetensors",
+      "text_encoders/qwen3vl_8b_int8_convrot.safetensors",
+      "vae/qwen_image_2.1_vae_bf16.safetensors"
+    ],
+    "turbo-lite-int8": [
+      "diffusion_models/qwen_image_2.1_turbo_int8_convrot.safetensors",
+      "text_encoders/qwen3vl_8b_int8_convrot.safetensors",
+      "vae/qwen_image_2.1_vae_bf16.safetensors"
+    ],
+    "w4a8": [
+      "diffusion_models/qwen_image_2.1_int8_convrot.safetensors",
+      "text_encoders/qwen3vl_8b_w4a8.safetensors",
+      "text_encoders/qwen3.5_9b_qwen_image_2.1_pe_i2i_w4a8.safetensors",
+      "vae/qwen_image_2.1_vae_bf16.safetensors"
+    ],
+    "full-bf16": [
+      "diffusion_models/qwen_image_2.1_bf16.safetensors",
+      "text_encoders/qwen3vl_8b_bf16.safetensors",
+      "vae/qwen_image_2.1_vae_bf16.safetensors"
+    ]
+  }
+}

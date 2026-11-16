@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qwen21-gpu-infra"
+version = "0.3.0"
+description = "Empirical ROCm/MI300X (gfx942) evaluation suite: BF16 vs. rotated INT8 fidelity, SDPA/AOTriton scaling, and VRAM cliff modeling for Qwen-Image-2.1."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+rocm = ["torch>=2.5", "huggingface-hub[hf_xet]>=0.26"]
+
+[project.scripts]
+qwen21-manifest = "qwen21_infra.manifest:main"
+qwen21-rocm-bench = "qwen21_infra.rocm_bench:main"
+qwen21-experiments = "qwen21_infra.experiments:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+qwen21_infra = ["models.json", "workflows/*.json"]
